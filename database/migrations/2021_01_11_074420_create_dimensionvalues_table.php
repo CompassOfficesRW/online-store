@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBatchTable extends Migration
+class CreateDimensionvaluesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateBatchTable extends Migration
      */
     public function up()
     {
-        Schema::create('batchs', function (Blueprint $table) {
+        Schema::create('dimensionvalues', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('products_id')->constrained('products')
+            $table->foreignId('dimensions_id')->constrained('dimensions')
                 ->onDelete('cascade');
-            $table->string('name');
-            $table->boolean('active')->default(true);
-            $table->datetime('expirydatetime')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->string('value');
+            $table->integer('stock')->default(99);
+            $table->boolean('unlimited')->default(true);
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ class CreateBatchTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('batchs');
+        Schema::dropIfExists('dimensionvalues');
     }
 }

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StoreController;
+use App\Http\Controllers\CustomersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,3 +24,11 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/store', [StoreController::class, 'store']);
+Route::get('/customers', [CustomersController::class, 'list']);
+Route::get('/customers/create', [CustomersController::class, 'create']);
+Route::post('/customers/create', [CustomersController::class, 'create']);
+Route::get('/customers/{id}/edit', [CustomersController::class, 'edit']);
+Route::post('/customers/{id}/edit', [CustomersController::class, 'edit']);
+Route::get('/customers/{id}/delete', [CustomersController::class, 'delete']);
+Route::post('/customers/{id}/delete', [CustomersController::class, 'delete']);
+Route::get('/orders', function(){return view('orders.list_view');});

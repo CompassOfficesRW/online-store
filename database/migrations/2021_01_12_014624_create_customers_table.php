@@ -1,10 +1,11 @@
 <?php
 
+use App\Enums\CustMediaType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBatchTable extends Migration
+class CreateCustomersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +14,12 @@ class CreateBatchTable extends Migration
      */
     public function up()
     {
-        Schema::create('batchs', function (Blueprint $table) {
+        Schema::create('customers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('products_id')->constrained('products')
-                ->onDelete('cascade');
             $table->string('name');
-            $table->boolean('active')->default(true);
-            $table->datetime('expirydatetime')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->string('mobile')->default('')->nullable();
+            $table->string('mediatype')->default(CustMediaType::Whatsapp);
+            $table->string('mediaid')->default('')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ class CreateBatchTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('batchs');
+        Schema::dropIfExists('customers');
     }
 }

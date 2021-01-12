@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Productimages;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Http\File;
 
 class ProductimagesFactory extends Factory
 {
@@ -21,8 +22,11 @@ class ProductimagesFactory extends Factory
      */
     public function definition()
     {
+        // $image = $this->faker->image(storage_path('app\public\images'));
+        // $imageFile = new File($image);
         return [
-            'image'=>$this->faker->image(storage_path('app/public/images'),640,480, null, false),
+            'image'=>$this->faker->image(storage_path('app/public/images'),640,480, "food", false),
+            // 'image'=>Storage::disk('public')->putFile('images', $imageFile),
         ];
     }
 }

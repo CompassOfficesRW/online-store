@@ -15,7 +15,7 @@ class CreatePricesTable extends Migration
     {
         Schema::create('prices', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('batch_id')->constrained('batch')
+            $table->foreignId('Batchs_id')->constrained('batchs')
                 ->onDelete('cascade');
             $table->integer('fromqty')->default(1);
             $table->integer('toqty')->default(999);
