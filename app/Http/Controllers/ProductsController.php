@@ -9,6 +9,12 @@ use App\Models\Productpriceview;
 
 class ProductsController extends Controller
 {
+    // list all items
+    public function list(Request $request){
+        $products = Products::paginate(15);
+        return view('admin.products.list_view', ['products'=>$products]);
+    }
+
     // create view
     public function create(Request $request){
         if($request->isMethod('post'))
