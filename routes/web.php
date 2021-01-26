@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\CustomersController;
+use App\Http\Controllers\OrdersController;
+use App\Http\Controllers\ProductsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,3 +34,8 @@ Route::post('/customers/{id}/edit', [CustomersController::class, 'edit']);
 Route::get('/customers/{id}/delete', [CustomersController::class, 'delete']);
 Route::post('/customers/{id}/delete', [CustomersController::class, 'delete']);
 Route::get('/orders', function(){return view('orders.list_view');});
+Route::get('/orders/create', [OrdersController::class, 'create']);
+// products
+Route::get('/products/create', [ProductsController::class, 'create']);
+Route::post('/products/create', [ProductsController::class, 'create']);
+Route::get('/products/{product_id}/{batch_id}/{qty}', [ProductsController::class, 'product_price']);

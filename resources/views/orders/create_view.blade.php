@@ -5,13 +5,11 @@
         <div class="row">
             <div class="col">
                 <a href="/customers/create" class="btn btn-primary mx-2">New customer</a>
-                <select class="selectpicker" data-live-search="true">
-  <option data-tokens="ketchup mustard">Hot Dog, Fries and a Soda</option>
-  <option data-tokens="mustard">Burger, Shake and a Smile</option>
-  <option data-tokens="frosting">Sugar, Spice and all things nice</option>
-</select>
-
-
+                <select class="selectpicker" data-live-search="true" title="Choose one of the following...">
+                    @foreach($customers as $customer)
+                        <option data-tokens="{{ $customer->mobile }}">{{ $customer->name }}</option>
+                    @endforeach
+                </select>
             </div>
         </div>
     </div>
