@@ -6,6 +6,7 @@
         <h1>Products overview</h1>
     </div>
     <div class="row py-4">
+        <base href="products/"/>
         <a href="create" class="btn btn-primary">New <i class="fas fa-sparkles"></i></a>
     </div>
     <div class="row">

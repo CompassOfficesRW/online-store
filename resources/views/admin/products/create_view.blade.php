@@ -1,6 +1,8 @@
 @extends('layouts.app')
 @section('content')
 <link href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <div class="container">
     <div class="row">
         <h1>Product create</h1>
@@ -27,58 +29,8 @@
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
-            <hr>
-            <div class="form-group">
-                <input type="button" name="batch-new" value="New" class='btn btn-primary'>
-                <table class="table-striped" name="batch">
-                    <thead>
-                        <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id='batch-tbody'>
-                        <tr>
-                            <input type="hidden" name="data[batch][id]" value="1">
-                            <td><input type="text" name="data[batch][name]" value="" ></td>
-                            <td>
-                                <a href="#" class="btn btn-danger"><i class="far fa-trash-alt"></i></a>
-                                <a href="#" class="btn btn-primary" name="batch-add-price">Add price</a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
 </div>
-<script type="text/javascript">
-    $('a[name="batch-add-price"]').bind("click", function(e){
-        e.preventDefault();
-        console.log('add price');
-        $('#batch-tbody')
-            .append($('<tr>')
-                .append($('<td>')
-                    .append($('<input>')
-                        .attr({'type':'text','name':'data[batch][name]'})
-                    )
-                )
-                .append($('<td>')
-                    .append($('<a>')
-                        .attr({'href':'#','class':"btn btn-danger"})
-                        .append($('<i>')
-                            .attr({'class':"far fa-trash-alt"})
-                        )
-                    )
-                    .append($('<a>')
-                        .attr({'href':'#','class':"btn btn-primary",'name':"batch-add-price"})
-                        .text('Add price').bind("click", function(e){
-                            e.preventDefault();
-                        })
-                    )
-                )
-            )
-    });
-</script>
 @endsection

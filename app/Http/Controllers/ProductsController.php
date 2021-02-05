@@ -21,9 +21,27 @@ class ProductsController extends Controller
         {
             $data = $request->input();
 
+            info($data);
+
             return $data;
         }
+
         return view('admin.products.create_view');
+    }
+
+    // update view
+    public function update(Request $request, $id){
+        if($request->isMethod('post'))
+        {
+            $data = $request->input();
+
+            info($data);
+
+            return $data;
+        }
+        $product = Products::findOrfail($id);
+        $batchs = BatchsController::batchs($id);
+        return view('admin.products.update_view', ['product'=>$product,'batchs'=>$batchs]);
     }
 
     // get pricing
