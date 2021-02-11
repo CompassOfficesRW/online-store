@@ -45,4 +45,16 @@ class BatchsController extends Controller
             return $batchs;
         }
     }
+
+    // delete
+    public function delete(Request $request, $batch_id){
+        if($request->isMethod('post'))
+        {
+            $batchs = Batchs::findOrfail($batch_id);
+
+            $batchs->delete();
+
+            return response('Record deleted', 200);
+        }
+    }
 }

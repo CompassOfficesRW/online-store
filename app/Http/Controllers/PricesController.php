@@ -55,4 +55,16 @@ class PricesController extends Controller
             return $prices;
         }
     }
+
+    // delete
+    public function delete(Request $request, $price_id){
+        if($request->isMethod('post'))
+        {
+            $prices = Prices::findOrfail($price_id);
+
+            $prices->delete();
+
+            return response('Record deleted', 200);
+        }
+    }
 }

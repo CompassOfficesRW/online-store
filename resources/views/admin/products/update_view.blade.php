@@ -4,8 +4,17 @@
 <link href="{{ asset('css/products/table-custom.css') }}" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js" defer></script>
+<style media="screen">
+input[type="checkbox"][readonly] {
+    pointer-events: none;
+}
+</style>
 <script type="text/javascript" defer>
 $(document).ready(function(){
+
+    $('.datetimepicker').datetimepicker();
+
     $.ajaxSetup({
       headers:{
         'X-CSRF-Token' : $("input[name=_token]").val()
@@ -98,8 +107,27 @@ $(document).ready(function(){
     });
     // Delete row on delete button click
     $(document).on("click", ".delete", function(){
-        $(this).parents("tr").remove();
-        $(".add-new").removeAttr("disabled");
+        var id = $(this).parents("tr").find('td[name="id"]');
+        var url ='{{ route('batchs.delete', ['batch_id'=>':id'])}}';
+        url = url.replace(':id', id.html());
+        var $tr = $(this).closest('tr');
+        // delete
+        $.ajax({
+            type: "post",
+            url: url,
+            data: '',
+            success: function(data) {
+                console.log(data);
+                // success = true;
+                $tr.find('td').fadeOut(1000,function(){
+                    $tr.remove();
+                });
+            },
+            error: function(data){
+                var errors = data.responseJSON;
+                console.log(errors);
+            }
+        });
     });
 });
 </script>
@@ -108,7 +136,7 @@ $(document).ready(function(){
         <h1>Product create</h1>
     </div>
     <div class="row">
-        <form action="/products/create" method="post" class="col">
+        <form action="{{ route('products.update', ['id'=>$product->id])}}" method="post" class="col">
             @csrf
             @if ($errors->any())
                 <div class="alert alert-danger" role="alert">
@@ -145,6 +173,8 @@ $(document).ready(function(){
                         <tr>
                             <th scope='col' hidden>ID</th>
                             <th scope="col">Name</th>
+                            <th scope="col">Active</th>
+                            <th scope="col">Expired date</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -154,13 +184,16 @@ $(document).ready(function(){
                         <tr>
                             <td hidden name="id">{{ $batch->id }}</td>
                             <td name="name">{{ $batch->name }}</td>
+                            <td name="active"><input type="checkbox" name="active" value="{{ $batch->active }}" readonly></td>
+                            <td name="expirydatetime"><input type="text" class="form-control datetimepicker" name="expirydatetime"></td>
                             <td>
                                 <a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>
                                 <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
                                 <a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
                                 @if ($batch->id != "")
-                                    <a href="#" class="price" title="Price" data-toggle="tooltip"><i class="material-icons">attach_money</i></a>
-                                @endif                                
+                                    <a href="/prices/{{ $batch->id }}" class="price" title="Price" data-toggle="tooltip"><i class="material-icons">attach_money</i></a>
+                                    <a href="/dimensions/{{ $batch->id }}" class="dimension" title="Dimension" data-toggle="tooltip"><i class="material-icons">arrow_circle_up</i></a>
+                                @endif
                             </td>
                         </tr>
                         @endforeach

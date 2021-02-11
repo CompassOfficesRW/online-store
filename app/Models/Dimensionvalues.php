@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Dimensionvalues extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'value',
+    ];
 }

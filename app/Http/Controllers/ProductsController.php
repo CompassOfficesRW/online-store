@@ -19,11 +19,18 @@ class ProductsController extends Controller
     public function create(Request $request){
         if($request->isMethod('post'))
         {
+            $request->validate([
+                'name' => 'required',
+                'description' => 'required',
+            ]);
+
             $data = $request->input();
-
-            info($data);
-
-            return $data;
+            $product = new Products;
+            $product->name = $data['name'];
+            $product->description = $data['description'];
+            $product->save();
+            $batchs = BatchsController::batchs($id);
+            return view('admin.products.update_view', ['product'=>$product,'batchs'=>$batchs]);
         }
 
         return view('admin.products.create_view');
@@ -33,11 +40,17 @@ class ProductsController extends Controller
     public function update(Request $request, $id){
         if($request->isMethod('post'))
         {
+            $request->validate([
+                'name' => 'required',
+                'description' => 'required',
+            ]);
             $data = $request->input();
-
-            info($data);
-
-            return $data;
+            $product = Products::findOrfail($id);
+            $product->name = $data['name'];
+            $product->description = $data['description'];
+            $product->update();
+            $batchs = BatchsController::batchs($id);
+            return view('admin.products.update_view', ['product'=>$product,'batchs'=>$batchs]);
         }
         $product = Products::findOrfail($id);
         $batchs = BatchsController::batchs($id);

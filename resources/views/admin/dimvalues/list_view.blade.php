@@ -22,10 +22,8 @@ $(document).ready(function(){
         $(this).attr("disabled", "disabled");
         var index = $("table tbody tr:last-child").index();
         var row = '<tr>' +
-                `<td hidden name="id"><input type="text" class="form-control" name="id" id="id"></td>
-                <td name="fromqty"><input @error('fromqty') is-invalid @enderror type="text" class="form-control" name="fromqty" id="fromqty" value="1"></td>
-                <td name="toqty"><input @error('toqty') is-invalid @enderror type="text" class="form-control" name="toqty" id="toqty" value="999"></td>
-                <td name="salesprice"><input @error('salesprice') is-invalid @enderror type="text" class="form-control" name="salesprice" id="salesprice" value="0"></td>`+
+                    '<td hidden><input type="text" class="form-control" name="id" id="id"></td>' +
+                    '<td><input type="text" class="form-control" name="value" id="value"></td>' +
             '<td>' + actions + '</td>' +
         '</tr>';
         $("table").append(row);
@@ -47,7 +45,6 @@ $(document).ready(function(){
             } else{
                 $(this).removeClass("error");
                 // create json message
-                console.log($(this).attr('name'));
                 json[$(this).attr('name')] = $(this).val();
             }
         });
@@ -55,7 +52,7 @@ $(document).ready(function(){
         {
             if(json['id'] != "")
             {
-                var url ='{{ route('prices.update', ['price_id'=>':id'])}}';
+                var url ='{{ route('dimensionvalues.update', ['dimvalue_id'=>':id','batch_id'=>$batch->id])}}';
                 url = url.replace(':id', json['id']);
                 // update
                 $.ajax({
@@ -75,7 +72,7 @@ $(document).ready(function(){
                 // create
                 $.ajax({
                     type: "post",
-                    url: '{{ route('prices.create', ['batch_id'=>$batch->id])}}',
+                    url: '{{ route('dimensionvalues.create', ['dim_id'=>$dimensions->id,'batch_id'=>$batch->id])}}',
                     data: json,
                     success: function(data) {
                         console.log(data);
@@ -107,7 +104,7 @@ $(document).ready(function(){
     // Delete row on delete button click
     $(document).on("click", ".delete", function(){
         var id = $(this).parents("tr").find('td[name="id"]');
-        var url ='{{ route('prices.delete', ['price_id'=>':id'])}}';
+        var url ='{{ route('dimensionvalues.delete', ['dimvalue_id'=>':id','batch_id'=>$batch->id])}}';
         url = url.replace(':id', id.html());
         var $tr = $(this).closest('tr');
         // delete
@@ -132,14 +129,14 @@ $(document).ready(function(){
 </script>
 <div class="container">
     <div class="row">
-        <h1>Prices - {{ $product->name }} - {{ $batch->name }}</h1>
+        <h1>Dimension values - {{ $product->name }} - {{ $batch->name }} - {{ $dimensions->name }}</h1>
     </div>
     <div class="row">
         @csrf
         <div class="form-group">
             <div class="table-title">
                 <div class="row">
-                    <div class="col-sm-8"><h2>Prices</h2></div>
+                    <div class="col-sm-8"><h2>Dimension values</h2></div>
                     <div class="col-sm-4">
                         <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button>
                     </div>
@@ -149,20 +146,16 @@ $(document).ready(function(){
                 <thead>
                     <tr>
                         <th scope='col' hidden>ID</th>
-                        <th scope="col">From qty</th>
-                        <th scope="col">To qty</th>
-                        <th scope="col">Sales price</th>
+                        <th scope="col">Value</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
 
-                    @foreach ($prices as $price)
+                    @foreach ($dimensionvalues as $dimensionvalue)
                     <tr>
-                        <td hidden name="id">{{ $price->id }}</td>
-                        <td name="fromqty">{{ $price->fromqty }}</td>
-                        <td name="toqty">{{ $price->toqty }}</td>
-                        <td name="salesprice">{{ $price->salesprice }}</td>
+                        <td hidden name="id">{{ $dimensionvalue->id }}</td>
+                        <td name="value">{{ $dimensionvalue->value }}</td>
                         <td>
                             <a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>
                             <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
@@ -170,16 +163,6 @@ $(document).ready(function(){
                         </td>
                     </tr>
                     @endforeach
-                    <!-- <tr>
-                        <td>John Doe</td>
-                        <td>Administration</td>
-                        <td>(171) 555-2222</td>
-                        <td>
-							<a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>
-                            <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                            <a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-                        </td>
-                    </tr> -->
                 </tbody>
             </table>
         </div>
